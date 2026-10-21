@@ -9,7 +9,7 @@ Custom PyTorch CPU extension for the FSE4AI final project.
 **Formula:** for each element `x`, return `sign(x) * log(1 + |x|)`.
 In pure PyTorch: `torch.sign(x) * torch.log1p(x.abs())`.
 
-**Accepted input:** CPU `float32` tensors of any shape.
+**Accepted input:** CPU `float32` tensors of any shape. A leading batch dimension is treated as extra rows: each element is computed independently of the others.
 **Rejected:** non-CPU tensors and non-`float32` dtypes (raises `RuntimeError` from C++ `TORCH_CHECK`).
 
 ## Team
