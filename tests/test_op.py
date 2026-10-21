@@ -40,3 +40,19 @@ def test_rejects_integer_dtype():
     x = torch.tensor([1, 2, 3])
     with pytest.raises(RuntimeError):
         signed_log1p(x)
+
+
+def test_batch_shape():
+    x = torch.randn(4, 3, dtype=torch.float32)
+    assert signed_log1p(x).shape == (4, 3)
+
+
+def test_batch_matches_spec():
+    row = torch.tensor([-5.0, 0.5, 2.0])
+    x = torch.stack([row] * 4)
+    assert torch.equal(signed_log1p(x), _spec(x))
+
+
+def test_rejects_float64():
+    with pytest.raises(RuntimeError):
+        signed_log1p(torch.tensor([1.0, 2.0], dtype=torch.float64))
