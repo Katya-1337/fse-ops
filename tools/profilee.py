@@ -1,6 +1,8 @@
 import cProfile
 import pstats
+
 import torch
+
 from fse_ops import signed_log1p
 
 x = torch.randn(1_000_000, dtype=torch.float32)
