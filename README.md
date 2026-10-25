@@ -62,3 +62,6 @@ docker run --rm fse-ops:0.1
 ## The project note
 
 Using `python3 -m cProfile -s cumulative`, the workload processed a `float32` tensor with 1,000,000 elements and called `signed_log1p` 100 times. The measured workload time was 1.577 seconds, of which 1.456 seconds accounted for the 100 calls to `fse_ops._C.signed_log1p` (approximately 14.56 ms per call).
+
+
+**Bug** After `tools/profilee.py` landed on `main`, the CI run failed (GitHub Actions run #8, step `ruff`) with `I001 Import block is un-sorted or un-formatted` in `tools/profilee.py`: the imports were not split into standard-library, third-party and first-party groups. The script itself ran fine; only `ruff check .` was red. Fix: blank lines between the `pstats`, `torch` and `fse_ops` imports, landed in commit `d36de7e`.
