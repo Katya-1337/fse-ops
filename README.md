@@ -65,3 +65,6 @@ Using `python3 -m cProfile -s cumulative`, the workload processed a `float32` te
 
 
 **Bug** After `tools/profilee.py` landed on `main`, the CI run failed (GitHub Actions run #8, step `ruff`) with `I001 Import block is un-sorted or un-formatted` in `tools/profilee.py`: the imports were not split into standard-library, third-party and first-party groups. The script itself ran fine; only `ruff check .` was red. Fix: blank lines between the `pstats`, `torch` and `fse_ops` imports, landed in commit `d36de7e`.
+
+**Input the op does not handle.** The operation does not support integer tensors. As tested by `test_rejects_integer_dtype`, passing
+`torch.tensor([1, 2, 3])` raises a `RuntimeError` from the C++ `TORCH_CHECK`, because `signed_log1p` accepts only CPU `float32` tensors.
